@@ -7,18 +7,7 @@
 # Image specifiactions, ensure that the image is present on the Nexus with the specified tag
 image:
   repository1: postgres
-  repository2: kpi-image
-  repository3: asset-image
-  repository4: data-image
-  repository5: dashboard-image
-  repository6: usermanager-image
-  repository7: billing-image
-  repository8: time-image
-  repository9: test-image
-  repository10: frontend-image
-  repository11: dbinitapi-image
-  repository12: demo_publisher_mqtt
-  repository13: demo_subscriber
+  
   
   pullPolicy: IfNotPresent
 
@@ -26,19 +15,7 @@ service:
   enabled: true
   type: "ClusterIP"
   port1: 5433
-  port2: 4502
-  port3: 4504
-  port4: 4505
-  port5: 4506
-  port6: 4507
-  port7: 4508
-  port8: 4509
-  port9: 4511
-  port10: 4201
-  port11: 1337
-  port12: 1883
-  port13: 3000
- 
+  
 
   
 persistence:
