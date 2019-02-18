@@ -1,0 +1,406 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ include "performance-insight" . }}
+  labels:
+    app: {{ include "performance-insight" . }}
+    chart: {{ include "performance-insight" . }}
+spec:
+  hostNetwork: true
+      volumes:
+        - name: {{ .Values.persistence.name }}
+          emptyDir: {}
+      containers:
+        - name: {{ include "performance-insight-postgres" . }}
+          image: "{{ .Values.image.repository1 }}:{{ .Values.image.tag }}"
+          volumeMounts:
+          - name: {{ .Values.persistence.name }}
+            mountPath: {{ .Values.persistence.mountPath }}
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: "http_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "https_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "no_proxy"
+            value: "localhost;127.0.0.1"
+          - name: "DBSERVICETYPE"
+            value: "postgres"
+          - name: "DBSERVICE"
+            value: "EdgeDatabase"  
+          - name: "VCAP_SERVICES"
+            value: "{"postgres":[{"name":"EdgeDatabase","credentials":{"name":"postgres","host":"database-service","port":"5432","username":"postgres","password":"Siemens123"}}]}"
+          - name: "EXTENDED_ERRORS"
+            value: "true"
+          - name: "LOG_DEBUG_INFO"
+            value: "true"
+          - name: "POSTGRES_DB"
+            value: "postgres
+          - name: "POSTGRES_USER"
+            value: "postgres"
+          - name: "POSTGRES_PASSWORD"
+            value: "Siemens123"
+
+            
+          ports:
+          - containerPort: {{ .Values.service.port1 }}
+            name: "inv-hopr"
+            {{- if not .Values.service.enabled }}
+            hostPort: {{ .Values.hostPort }}
+            {{- end }}
+            protocol: TCP
+            
+        - name: {{ include "performance-insight-kpi" . }}
+          image: "{{ .Values.image.repository2 }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: "http_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "https_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "no_proxy"
+            value: "localhost;127.0.0.1"
+          - name: "DBSERVICETYPE"
+            value: "postgres"
+          - name: "DBSERVICE"
+            value: "EdgeDatabase"  
+          - name: "VCAP_SERVICES"
+            value: "{"postgres":[{"name":"EdgeDatabase","credentials":{"name":"postgres","host":"database-service","port":"5432","username":"postgres","password":"Siemens123"}}]}"
+          - name: "EXTENDED_ERRORS"
+            value: "true"
+          - name: "LOG_DEBUG_INFO"
+            value: "true"
+            
+          ports:
+          - containerPort: {{ .Values.service.port2 }}
+            name: "inv-hopr"
+            {{- if not .Values.service.enabled }}
+            hostPort: {{ .Values.hostPort }}
+            {{- end }}
+            protocol: TCP 
+            
+        - name: {{ include "performance-insight-assets" . }}
+          image: "{{ .Values.image.repository3 }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: "http_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "https_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "no_proxy"
+            value: "localhost;127.0.0.1"
+          - name: "DBSERVICETYPE"
+            value: "postgres"
+          - name: "DBSERVICE"
+            value: "EdgeDatabase"  
+          - name: "VCAP_SERVICES"
+            value: "{"postgres":[{"name":"EdgeDatabase","credentials":{"name":"postgres","host":"database-service","port":"5432","username":"postgres","password":"Siemens123"}}]}"
+          - name: "EXTENDED_ERRORS"
+            value: "true"
+          - name: "LOG_DEBUG_INFO"
+            value: "true"
+            
+          ports:
+          - containerPort: {{ .Values.service.port3 }}
+            name: "inv-hopr"
+            {{- if not .Values.service.enabled }}
+            hostPort: {{ .Values.hostPort }}
+            {{- end }}
+            protocol: TCP
+        
+        - name: {{ include "performance-insight-data" . }}
+          image: "{{ .Values.image.repository4 }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: "http_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "https_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "no_proxy"
+            value: "localhost;127.0.0.1"
+          - name: "DBSERVICETYPE"
+            value: "postgres"
+          - name: "DBSERVICE"
+            value: "EdgeDatabase"  
+          - name: "VCAP_SERVICES"
+            value: "{"postgres":[{"name":"EdgeDatabase","credentials":{"name":"postgres","host":"database-service","port":"5432","username":"postgres","password":"Siemens123"}}]}"
+          - name: "EXTENDED_ERRORS"
+            value: "true"
+          - name: "LOG_DEBUG_INFO"
+            value: "true"
+            
+          ports:
+          - containerPort: {{ .Values.service.port4 }}
+            name: "inv-hopr"
+            {{- if not .Values.service.enabled }}
+            hostPort: {{ .Values.hostPort }}
+            {{- end }}
+            protocol: TCP              
+        
+        - name: {{ include "performance-insight-dashboard" . }}
+          image: "{{ .Values.image.repository5 }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: "http_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "https_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "no_proxy"
+            value: "localhost;127.0.0.1"
+          - name: "DBSERVICETYPE"
+            value: "postgres"
+          - name: "DBSERVICE"
+            value: "EdgeDatabase"  
+          - name: "VCAP_SERVICES"
+            value: "{"postgres":[{"name":"EdgeDatabase","credentials":{"name":"postgres","host":"database-service","port":"5432","username":"postgres","password":"Siemens123"}}]}"
+          - name: "EXTENDED_ERRORS"
+            value: "true"
+          - name: "LOG_DEBUG_INFO"
+            value: "true"
+            
+          ports:
+          - containerPort: {{ .Values.service.port5 }}
+            name: "inv-hopr"
+            {{- if not .Values.service.enabled }}
+            hostPort: {{ .Values.hostPort }}
+            {{- end }}
+            protocol: TCP
+        
+        - name: {{ include "performance-insight-usermanager" . }}
+          image: "{{ .Values.image.repository6 }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: "http_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "https_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "no_proxy"
+            value: "localhost;127.0.0.1"
+          - name: "DBSERVICETYPE"
+            value: "postgres"
+          - name: "DBSERVICE"
+            value: "EdgeDatabase"  
+          - name: "VCAP_SERVICES"
+            value: "{"postgres":[{"name":"EdgeDatabase","credentials":{"name":"postgres","host":"database-service","port":"5432","username":"postgres","password":"Siemens123"}}]}"
+          - name: "EXTENDED_ERRORS"
+            value: "true"
+          - name: "LOG_DEBUG_INFO"
+            value: "true"
+            
+          ports:
+          - containerPort: {{ .Values.service.port6 }}
+            name: "inv-hopr"
+            {{- if not .Values.service.enabled }}
+            hostPort: {{ .Values.hostPort }}
+            {{- end }}
+            protocol: TCP  
+        
+        - name: {{ include "performance-insight-billing" . }}
+          image: "{{ .Values.image.repository7 }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: "http_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "https_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "no_proxy"
+            value: "localhost;127.0.0.1"
+          - name: "DBSERVICETYPE"
+            value: "postgres"
+          - name: "DBSERVICE"
+            value: "EdgeDatabase"  
+          - name: "VCAP_SERVICES"
+            value: "{"postgres":[{"name":"EdgeDatabase","credentials":{"name":"postgres","host":"database-service","port":"5432","username":"postgres","password":"Siemens123"}}]}"
+          - name: "EXTENDED_ERRORS"
+            value: "true"
+          - name: "LOG_DEBUG_INFO"
+            value: "true"
+            
+          ports:
+          - containerPort: {{ .Values.service.port7 }}
+            name: "inv-hopr"
+            {{- if not .Values.service.enabled }}
+            hostPort: {{ .Values.hostPort }}
+            {{- end }}
+            protocol: TCP
+
+         
+        - name: {{ include "performance-insight-time" . }}
+          image: "{{ .Values.image.repository8 }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: "http_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "https_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "no_proxy"
+            value: "localhost;127.0.0.1"
+          - name: "DBSERVICETYPE"
+            value: "postgres"
+          - name: "DBSERVICE"
+            value: "EdgeDatabase"  
+          - name: "VCAP_SERVICES"
+            value: "{"postgres":[{"name":"EdgeDatabase","credentials":{"name":"postgres","host":"database-service","port":"5432","username":"postgres","password":"Siemens123"}}]}"
+          - name: "EXTENDED_ERRORS"
+            value: "true"
+          - name: "LOG_DEBUG_INFO"
+            value: "true"
+            
+          ports:
+          - containerPort: {{ .Values.service.port8 }}
+            name: "inv-hopr"
+            {{- if not .Values.service.enabled }}
+            hostPort: {{ .Values.hostPort }}
+            {{- end }}
+            protocol: TCP 
+
+                    
+        - name: {{ include "performance-insight-test" . }}
+          image: "{{ .Values.image.repository9 }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: "http_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "https_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "no_proxy"
+            value: "localhost;127.0.0.1"
+          - name: "DBSERVICETYPE"
+            value: "postgres"
+          - name: "DBSERVICE"
+            value: "EdgeDatabase"  
+          - name: "VCAP_SERVICES"
+            value: "{"postgres":[{"name":"EdgeDatabase","credentials":{"name":"postgres","host":"database-service","port":"5432","username":"postgres","password":"Siemens123"}}]}"
+          - name: "EXTENDED_ERRORS"
+            value: "true"
+          - name: "LOG_DEBUG_INFO"
+            value: "true"
+            
+          ports:
+          - containerPort: {{ .Values.service.port9 }}
+            name: "inv-hopr"
+            {{- if not .Values.service.enabled }}
+            hostPort: {{ .Values.hostPort }}
+            {{- end }}
+            protocol: TCP 
+            
+        - name: {{ include "performance-insight-frontend" . }}
+          image: "{{ .Values.image.repository10 }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: "http_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "https_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "no_proxy"
+            value: "localhost;127.0.0.1"
+          - name: "DBSERVICETYPE"
+            value: "postgres"
+          - name: "DBSERVICE"
+            value: "EdgeDatabase"  
+          - name: "VCAP_SERVICES"
+            value: "{"postgres":[{"name":"EdgeDatabase","credentials":{"name":"postgres","host":"database-service","port":"5432","username":"postgres","password":"Siemens123"}}]}"
+          - name: "EXTENDED_ERRORS"
+            value: "true"
+          - name: "LOG_DEBUG_INFO"
+            value: "true"
+            
+          ports:
+          - containerPort: {{ .Values.service.port10 }}
+            name: "inv-hopr"
+            {{- if not .Values.service.enabled }}
+            hostPort: {{ .Values.hostPort }}
+            {{- end }}
+            protocol: TCP 
+
+        
+        - name: {{ include "performance-insight-dbinit" . }}
+          image: "{{ .Values.image.repository11 }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: "http_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "https_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "no_proxy"
+            value: "localhost;127.0.0.1"
+          - name: "DBSERVICETYPE"
+            value: "postgres"
+          - name: "DBSERVICE"
+            value: "EdgeDatabase"  
+          - name: "VCAP_SERVICES"
+            value: "{"postgres":[{"name":"EdgeDatabase","credentials":{"name":"postgres","host":"database-service","port":"5432","username":"postgres","password":"Siemens123"}}]}"
+          - name: "EXTENDED_ERRORS"
+            value: "true"
+          - name: "LOG_DEBUG_INFO"
+            value: "true"
+            
+          ports:
+          - containerPort: {{ .Values.service.port11 }}
+            name: "inv-hopr"
+            {{- if not .Values.service.enabled }}
+            hostPort: {{ .Values.hostPort }}
+            {{- end }}
+            protocol: TCP 
+
+
+        - name: {{ include "performance-insight-publisher_mqtt" . }}
+          image: "{{ .Values.image.repository12 }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: "http_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "https_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "no_proxy"
+            value: "localhost;127.0.0.1"
+          - name: "DBSERVICETYPE"
+            value: "postgres"
+          - name: "DBSERVICE"
+            value: "EdgeDatabase"  
+          - name: "VCAP_SERVICES"
+            value: "{"postgres":[{"name":"EdgeDatabase","credentials":{"name":"postgres","host":"database-service","port":"5432","username":"postgres","password":"Siemens123"}}]}"
+          - name: "EXTENDED_ERRORS"
+            value: "true"
+          - name: "LOG_DEBUG_INFO"
+            value: "true"
+            
+          ports:
+          - containerPort: {{ .Values.service.port12 }}
+            name: "inv-hopr"
+            {{- if not .Values.service.enabled }}
+            hostPort: {{ .Values.hostPort }}
+            {{- end }}
+            protocol: TCP 
+ 
+        - name: {{ include "performance-insight-subscriber" . }}
+          image: "{{ .Values.image.repository13 }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: "http_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "https_proxy"
+            value: 'http://194.138.0.25:9400'
+          - name: "no_proxy"
+            value: "localhost;127.0.0.1"
+          - name: "DBSERVICETYPE"
+            value: "postgres"
+          - name: "DBSERVICE"
+            value: "EdgeDatabase"  
+          - name: "VCAP_SERVICES"
+            value: "{"postgres":[{"name":"EdgeDatabase","credentials":{"name":"postgres","host":"database-service","port":"5432","username":"postgres","password":"Siemens123"}}]}"
+          - name: "EXTENDED_ERRORS"
+            value: "true"
+          - name: "LOG_DEBUG_INFO"
+            value: "true"
+            
+          ports:
+          - containerPort: {{ .Values.service.port13 }}
+            name: "inv-hopr"
+            {{- if not .Values.service.enabled }}
+            hostPort: {{ .Values.hostPort }}
+            {{- end }}
+            protocol: TCP
+
+        
+     

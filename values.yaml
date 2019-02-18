@@ -1,0 +1,73 @@
+# Default values for scanner-app github.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+#scale: 1
+
+# Image specifiactions, ensure that the image is present on the Nexus with the specified tag
+image:
+  repository1: postgres
+  repository2: kpi-image
+  repository3: asset-image
+  repository4: data-image
+  repository5: dashboard-image
+  repository6: usermanager-image
+  repository7: billing-image
+  repository8: time-image
+  repository9: test-image
+  repository10: frontend-image
+  repository11: dbinitapi-image
+  repository12: demo_publisher_mqtt
+  repository13: demo_subscriber
+  tag: 0.0.1.1
+  pullPolicy: IfNotPresent
+
+service:
+  enabled: true
+  type: "ClusterIP"
+  port1: 5433
+  port2: 4502
+  port3: 4504
+  port4: 4505
+  port5: 4506
+  port6: 4507
+  port7: 4508
+  port8: 4509
+  port9: 4511
+  port10: 4201
+  port11: 1337
+  port12: 1883
+  port13: 3000
+ 
+proxy:
+  verbose: '''True'''
+  mqttHost: 'localhost'
+  mqttPort: '''1889'''
+  mqttAddr: 'localhost:1889'
+  tty: true
+  
+persistence:
+  name:database-volume
+  mountPath:/var/lib/postgresql
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 2Gi
+  storageClass: standard
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 100Mi
+    
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  path: /
+  hosts:
+    - localhost
+  tls: []
+
+customResources:
+  enablespecificdownload: false
