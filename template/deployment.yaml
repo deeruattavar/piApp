@@ -44,11 +44,7 @@ spec:
             
           ports:
           - containerPort: {{ .Values.service.port1 }}
-            name: "inv-hopr"
-            {{- if not .Values.service.enabled }}
-            hostPort: {{ .Values.hostPort }}
-            {{- end }}
-            protocol: TCP
+           
             
         - name: {{ include "performance-insight-kpi" . }}
           image: "{{ .Values.image.repository2 }}:{{ .Values.image.tag }}"
@@ -73,11 +69,7 @@ spec:
             
           ports:
           - containerPort: {{ .Values.service.port2 }}
-            name: "inv-hopr"
-            {{- if not .Values.service.enabled }}
-            hostPort: {{ .Values.hostPort }}
-            {{- end }}
-            protocol: TCP 
+            
             
         - name: {{ include "performance-insight-assets" . }}
           image: "{{ .Values.image.repository3 }}:{{ .Values.image.tag }}"
@@ -102,11 +94,7 @@ spec:
             
           ports:
           - containerPort: {{ .Values.service.port3 }}
-            name: "inv-hopr"
-            {{- if not .Values.service.enabled }}
-            hostPort: {{ .Values.hostPort }}
-            {{- end }}
-            protocol: TCP
+            
         
         - name: {{ include "performance-insight-data" . }}
           image: "{{ .Values.image.repository4 }}:{{ .Values.image.tag }}"
@@ -131,11 +119,7 @@ spec:
             
           ports:
           - containerPort: {{ .Values.service.port4 }}
-            name: "inv-hopr"
-            {{- if not .Values.service.enabled }}
-            hostPort: {{ .Values.hostPort }}
-            {{- end }}
-            protocol: TCP              
+                      
         
         - name: {{ include "performance-insight-dashboard" . }}
           image: "{{ .Values.image.repository5 }}:{{ .Values.image.tag }}"
@@ -160,11 +144,7 @@ spec:
             
           ports:
           - containerPort: {{ .Values.service.port5 }}
-            name: "inv-hopr"
-            {{- if not .Values.service.enabled }}
-            hostPort: {{ .Values.hostPort }}
-            {{- end }}
-            protocol: TCP
+            
         
         - name: {{ include "performance-insight-usermanager" . }}
           image: "{{ .Values.image.repository6 }}:{{ .Values.image.tag }}"
@@ -189,11 +169,7 @@ spec:
             
           ports:
           - containerPort: {{ .Values.service.port6 }}
-            name: "inv-hopr"
-            {{- if not .Values.service.enabled }}
-            hostPort: {{ .Values.hostPort }}
-            {{- end }}
-            protocol: TCP  
+              
         
         - name: {{ include "performance-insight-billing" . }}
           image: "{{ .Values.image.repository7 }}:{{ .Values.image.tag }}"
@@ -218,11 +194,7 @@ spec:
             
           ports:
           - containerPort: {{ .Values.service.port7 }}
-            name: "inv-hopr"
-            {{- if not .Values.service.enabled }}
-            hostPort: {{ .Values.hostPort }}
-            {{- end }}
-            protocol: TCP
+            
 
          
         - name: {{ include "performance-insight-time" . }}
@@ -248,11 +220,7 @@ spec:
             
           ports:
           - containerPort: {{ .Values.service.port8 }}
-            name: "inv-hopr"
-            {{- if not .Values.service.enabled }}
-            hostPort: {{ .Values.hostPort }}
-            {{- end }}
-            protocol: TCP 
+            
 
                     
         - name: {{ include "performance-insight-test" . }}
@@ -278,11 +246,7 @@ spec:
             
           ports:
           - containerPort: {{ .Values.service.port9 }}
-            name: "inv-hopr"
-            {{- if not .Values.service.enabled }}
-            hostPort: {{ .Values.hostPort }}
-            {{- end }}
-            protocol: TCP 
+            
             
         - name: {{ include "performance-insight-frontend" . }}
           image: "{{ .Values.image.repository10 }}:{{ .Values.image.tag }}"
@@ -307,11 +271,7 @@ spec:
             
           ports:
           - containerPort: {{ .Values.service.port10 }}
-            name: "inv-hopr"
-            {{- if not .Values.service.enabled }}
-            hostPort: {{ .Values.hostPort }}
-            {{- end }}
-            protocol: TCP 
+             
 
         
         - name: {{ include "performance-insight-dbinit" . }}
@@ -337,11 +297,7 @@ spec:
             
           ports:
           - containerPort: {{ .Values.service.port11 }}
-            name: "inv-hopr"
-            {{- if not .Values.service.enabled }}
-            hostPort: {{ .Values.hostPort }}
-            {{- end }}
-            protocol: TCP 
+            
 
 
         - name: {{ include "performance-insight-publisher_mqtt" . }}
@@ -367,11 +323,7 @@ spec:
             
           ports:
           - containerPort: {{ .Values.service.port12 }}
-            name: "inv-hopr"
-            {{- if not .Values.service.enabled }}
-            hostPort: {{ .Values.hostPort }}
-            {{- end }}
-            protocol: TCP 
+            
  
         - name: {{ include "performance-insight-subscriber" . }}
           image: "{{ .Values.image.repository13 }}:{{ .Values.image.tag }}"
@@ -396,11 +348,7 @@ spec:
             
           ports:
           - containerPort: {{ .Values.service.port13 }}
-            name: "inv-hopr"
-            {{- if not .Values.service.enabled }}
-            hostPort: {{ .Values.hostPort }}
-            {{- end }}
-            protocol: TCP
+            
 
         
      
